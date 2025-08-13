@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h2 class="text-center">Sentiment Analyzer</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/predict">
+                    <div class="mb-3">
+                        <label class="form-label">Enter Text:</label>
+                        <textarea name="text" class="form-control" rows="4">{{ text or '' }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Select Model:</label>
+                        <select name="model" class="form-select">
+                            <option value="vader">VADER (Rule-Based)</option>
+                            <option value="huggingface">Hugging Face (AI)</option>
+                        </select>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                        <button type="submit" class="btn btn-primary me-md-2">Analyze Sentiment</button>
+                        <a href="/dashboard" class="btn btn-success">View Dashboard</a>
+                    </div>
+                </form>
+
+                {% if sentiment %}
+                    <div class="mt-4 alert alert-info">
+                        <h4>Result: {{ sentiment }}</h4>
+                        <p>Model Used: <strong>{{ model }}</strong></p>
+                        {% if score %}
+                        <p>Confidence Score: <strong>{{ "%.2f"|format(score * 100) }}%</strong></p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
